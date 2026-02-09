@@ -8,12 +8,17 @@ const pool = new Pool ({
     database: process.env.DB_DATABASE,
     password: process.env.DB_PASSWORD,
     dbPort: process.env.DB_PORT,
-    port: process.env.DB_PORT
+    port: process.env.DB_PORT,
+    //Ignora o erro de certificado autoassinado ( self-signed )
+    ssl:  process.env.NODE_ENV === 'production' ? {
+      rejectUnauthorized: false
+    } : false
 })
 
 async function getConnection() {
     try {
         const client = await pool.connect()
+        console.log("Conectado com sucesso o Postgres🚀")
         return client
     } catch (error) {
         console.error("Erro ao conectar com o Banco de dados!!!")
@@ -22,12 +27,19 @@ async function getConnection() {
 }
 
 
-(async () => {
-  try {
-    const client = await getConnection()
-    console.log('Conectado ao PostgreSQL com sucesso 🚀')
-    client.release()
-  } catch (err) {
-    console.error(err)
-  }
-})()
+module.exports = {
+    pool,
+    getConnection
+}
+
+
+
+// (async () => {
+//   try {
+//     const client = await getConnection()
+//     console.log('Conectado ao PostgreSQL com sucesso 🚀')
+//     client.release()
+//   } catch (err) {
+//     console.error(err)
+//   }
+// })()
