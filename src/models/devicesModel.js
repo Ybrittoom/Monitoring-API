@@ -34,6 +34,7 @@ const devicesModel = {
         }
     },
 
+    //passar o ID do dispositivo como parametro para buscar um dispositivo especifico
     findOneDevice: async (idDispositivo) => {
         try {
             const pool = await getConnection()
