@@ -78,4 +78,97 @@ const devicesController = {
         }
     },
 
+    createDevice: async (req, res) => {
+        try {
+            const {
+                nomeDispositivo,
+                ipDispositivo,
+                mac,
+                vistoPrimeiro,
+                vistoUltimo,
+                seConhecido
+            } = req.body
+
+            //validar os campo obrigatorios
+            if (!nomeDispositivo || !ipdDispositivo || !mac || !vistoPrimeiro || !vistoUltimo || !seConhecido || undefined) {
+                return res.status(400).json({
+                    error: "Todos os campos sao obrigatorios"
+                })
+            }
+
+            const device = await devicesModel.createDevice(
+                nomeDispositivo,
+                ipDispositivo,
+                mac, 
+                vistoPrimeiro,
+                vistoUltimo,
+                seConhecido
+            )
+
+            res.status(201).json(device)
+        } catch (error) {
+            console.error("erro ao criar dispositivo: ", error)
+            res.status(500).json({
+                error: "Erro ao criar dispositivo"
+            })
+        }
+    },
+
+    updateLestSeen: async (req, res) => {
+        try {
+            const { idDispositivo } = req.params
+
+            //validar campos obrigatorios
+            if(!idDispositivo) {
+                return res.status(400).json({
+                    error: "Todos os campos sao obrigatorios"
+                })
+            }
+
+            const device = await devicesModel.updateLastSeen(idDispositivo)
+
+            if(!device ) {
+                return res.status(404).json({
+                    error: "Dispositivo nao encontrado"
+                })
+            }
+
+            return res.status(200).json(device)
+        } catch (error) {
+            console.error("Erro ao atualizar")
+            return res.status(500).json({
+                error: "Erro interno no servidor ao tentar atualizar "
+            })
+        }
+    },
+
+    updateIp: async (req, res) => {
+        try {
+            const {idDispositivo} = req.params
+            const { ipDispositivo} = req.body
+
+            if(!idDispositivo || !ipDispositivo) {
+                return res.status(400).json({
+                    error: "Campos obrigatorios"
+                })
+            }
+
+            const device = await devicesModel.updateIp(idDispositivo, idDispositivo)
+
+           return res.status(200).json({
+                message: "IP atualizado com sucesso ",
+                device
+            })
+        } catch (error) {
+            console.error("Erro ao tentar ATUALIZAR o IP do dispositivo")
+            return res.status(500).json({
+                error: "Erro interno no servidor ao tentar ATUALIZAR o IP do dispositivo!!!"
+            })
+        }
+    }
+
+}
+
+module.exports = {
+    devicesController
 }

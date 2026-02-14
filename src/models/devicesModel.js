@@ -144,7 +144,7 @@ const devicesModel = {
 
             const queryPG = `
                 UPDATE device
-                SET vistoprimeiro = NOW()
+                SET vistoultimo = NOW()
                 WHERE iddispositivo = $1
                 RETURNING *
             `
