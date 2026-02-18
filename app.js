@@ -6,7 +6,7 @@ const {devicesRoutes} = require('./src/routes/devicesRoutes')
 
 app.use(express.json())
 
-
+console.log("Minhas rotas: ", devicesRoutes)
 app.use('/', devicesRoutes)
 
 
