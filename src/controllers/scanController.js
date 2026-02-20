@@ -13,6 +13,33 @@ const scanController = {
                     error: 'Erro ao executar o scan'
                 })
             }
+
+            const output = stdout.split("\n")
+
+            const devicesFound = []
+
+            for (let line of output) {
+                const match = line.match(/(\d+\.\d+\.\d+\.\d+)\s+([a-f0-9-]+)/i)
+
+                if (match) {
+                    const ip = match[1]
+                    const mac = match[2]
+
+                    //jogando o ip e o mac para o devicesFound
+                    devicesFound.push({ ip, mac })
+                }
+
+                res.json({
+                    message: "Scan finalizado!!! /en: scan finished",
+                    total: devicesFound.length,
+                    devices: devicesFound
+                })
+            }
+
         })
     }
+}
+
+module.exports = {
+    scanController
 }
