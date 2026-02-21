@@ -3,11 +3,14 @@ require('dotenv').config()
 const app = express()
 const PORT = process.env.PORT
 const {devicesRoutes} = require('./src/routes/devicesRoutes')
+const { scanRoutes } = require("./src/routes/devicesRoutes")
 
 app.use(express.json())
 
-console.log("Minhas rotas: ", devicesRoutes)
 app.use('/', devicesRoutes)
+
+
+app.use('/scan', scanRoutes)
 
 
 app.listen(PORT, () => {

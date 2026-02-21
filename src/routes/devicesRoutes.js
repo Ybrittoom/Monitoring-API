@@ -10,5 +10,6 @@ router.get('/devices', devicesController.getAllDevices);
 router.post('/scan', scanController.scanNetWork)
 
 module.exports = {
-    devicesRoutes: router
+    devicesRoutes: router,
+    scanRoutes: router
 }
